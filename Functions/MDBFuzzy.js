@@ -10,7 +10,7 @@ var MDBFuzzy = function(url) {
 
 
 //Methods
-MDBFuzzy.prototype.checkInsert = function(object, database, collection, algorithm, threshold, callback, n){
+MDBFuzzy.prototype.insertOneFuzzy = function(object, database, collection, algorithm, threshold, callback, n){
  
     //Iniciamos el spinner
     var s = new Spinner();
@@ -73,6 +73,66 @@ MDBFuzzy.prototype.checkInsert = function(object, database, collection, algorith
         }); 
     }); 
 }
+
+MDBFuzzy.prototype.insertManyFuzzy = function(arrayObjects, database, collection, algorithm, treshold, callback, n){
+    
+    //Iniciamos el spinner
+    var s = new Spinner();
+    s.spin.start();
+    
+    MongoClient.connect(this.url, function(err, db) {
+        if (err) {
+            s.spin.stop();
+            throw new Error("An error has occurred while the conection was being stablished");   
+        }
+        
+        //Obtenemos la base de datos y comprobamos si la colección tiene datos
+        var dbo = db.db(database);
+        dbo.collection(collection).findOne({}, function(err, result){
+            if(err){
+                s.spin.stop();
+                throw err;
+            } 
+            
+            //Si no hay ningun dato insertamos directamente
+            if(result == undefined){
+                dbo.collection(collection).insertMany(arrayObjects, function(err, res){
+                    if (err) throw err;
+                    s.spin.stop();
+                    db.close();
+                    //devolvemos 1 porque ha insertado
+                    callback(1);
+                });      
+            } 
+            else {
+                dbo.collection(collection).find({}).project({_id:0}).toArray(function(err, docs){
+                    if(err) throw err;
+                    //Creamos el contador de objetos insertados
+                    var cont = 0;
+                    
+                    //Creamos el objeto algoritmo con la información pasada por parametro
+                    var alg = new Algorithm(algorithm, n);
+                    var similar = false;
+                    for(var i in arrayObjects){
+                        for(var j in docs){
+                            var similarity = alg.getSimilairty(JSON.stringify(arrayObjects[i], docs[j]));
+                            if(similarity >= treshold){
+                                similar = true;
+                            }
+                        }
+                        if(!similar){
+                            cont++;
+                            db.collection(collection).insertOne(arrayObjects[i]);
+                        }
+                    }
+                    s.spin.stop();
+                    db.close();
+                    callback(cont);
+                });
+            }
+        });
+    });
+}
     
 MDBFuzzy.prototype.cleanCollection = function(database, collection, algorithm, threshold, callback, n){
     //Iniciamos el spinner
@@ -98,6 +158,8 @@ MDBFuzzy.prototype.cleanCollection = function(database, collection, algorithm, t
             for(var i in docs){
                 arr_copy.push(JSON.stringify(docs[i]));
             }
+            //Declaramos un contador para el numero de documentos borrados
+            var cont = 0;
             
             //Recorremos la colección fijando un documento y comparandolo con los demás
             for(var i=0; i<docs.length; i++){
@@ -113,8 +175,9 @@ MDBFuzzy.prototype.cleanCollection = function(database, collection, algorithm, t
                         //Calculamos la similitud entre las dos variables
                         var similarity = alg.getSimilairty(JSON.stringify(compare_i), JSON.stringify(compare_j));
                         
-                        //Si supera el umbral lo borramos
+                        //Si supera el umbral lo borramos de la bbdd y del array auxiliar, e incrementamos la variable contadora
                         if(similarity >= threshold){
+                            cont++;
                             delete arr_copy[j];
                             dbo.collection(collection).deleteOne(docs[j]);
                         }   
@@ -124,9 +187,13 @@ MDBFuzzy.prototype.cleanCollection = function(database, collection, algorithm, t
             
             s.spin.stop();
             db.close();
-            callback(0);
+            callback(cont);
         });
     });
+}
+
+MDBFuzzy.prototype.findFuzzy = function(query, database, collection, algorithm, threshold, callback, n){
+    
 }
 
 module.exports = MDBFuzzy;
