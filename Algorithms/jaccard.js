@@ -1,5 +1,6 @@
 var Shingles = require('../Utils/Shingles.js');
 
+
 function Jaccard(n){
     this.n = n;
 }

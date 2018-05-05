@@ -21,6 +21,8 @@ levensthein.prototype.getDistance = function(s1,s2){
         return s1.length;
     }
     
+   
+    
     //Create two vectors for work
     var v0 = new Array(s2.length + 1);
     var v1 = new Array(s2.length + 1);
