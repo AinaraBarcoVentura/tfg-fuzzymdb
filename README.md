@@ -15,6 +15,12 @@ To use the module fuzzymdb, you will need to have installed the mongodb module, 
 npm install mongodb
 ```
 
+Also, if you want to display the loading bar in the console, asynchronously, you will also need the ora package. To install it usse the following command:
+
+```
+npm install ora
+```
+
 ### Installing
 
 A step by step series of examples that tell you have to get a development env running

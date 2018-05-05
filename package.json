@@ -1,0 +1,36 @@
+{
+    "name": "fuzzymdb",
+    "version": "1.0.1",
+    "description": "This package adds new features to the mongodb database through the use of fuzzy techniques and approximate string matching.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/AinaraBarcoVentura/tfg-fuzzymdb.git"
+    },
+    "keywords": [
+        "MongoDB",
+        "fuzzySearch",
+        "fuzzyTechniques",
+        "fuzzy",
+        "approximate",
+        "String",
+        "matching",
+        "levensthein",
+        "damerau",
+        "ngram",
+        "jaccard"
+    ],
+    "author": "Ainara Del Barco Ventura",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/AinaraBarcoVentura/tfg-fuzzymdb/issues"
+    },
+    "homepage": "https://github.com/AinaraBarcoVentura/tfg-fuzzymdb#readme",
+    "dependencies": {
+        "ora": "2.1.0",
+        "mongodb": "3.0.7"
+    }
+}
