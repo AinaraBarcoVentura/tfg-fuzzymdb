@@ -1,6 +1,6 @@
 {
     "name": "fuzzymdb",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "This package adds new features to the mongodb database through the use of fuzzy techniques and approximate string matching.",
     "main": "index.js",
     "scripts": {
