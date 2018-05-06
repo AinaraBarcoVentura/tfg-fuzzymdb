@@ -12,6 +12,7 @@ var ExtractValues = function(threshold, n,  k){
 ExtractValues.prototype.getArrSimilarity = function(Object, objectComparison, threshold, n, k){
     var arrValues = [];
     
+    
     //Por cada propiedad que el objeto que se comapra tenga adicional al original se pushea un 0
     for(var i in objectComparison){
         if(Object[i] == undefined || typeof(Object[i])!=typeof(objectComparison[i])){
@@ -53,12 +54,11 @@ ExtractValues.prototype.getArrSimilarity = function(Object, objectComparison, th
                 } 
                 //Si se trata de un número se realiza la campana de gauss
                 else if(typeof(val_orig) == "number" && typeof(val) == "number"){
-                    //console.log("Algorithm: gauss ");
                     var m = val_orig;
                     var x = val;
                     var up = (Math.pow(m-x, 2));
-                    var down = Math.pow(k,2)*2;
-                    sim = Math.exp((-1)*(up/down));
+                    var down = (Math.pow(k,2))*2;
+                    sim = Math.exp((-1)*(up/down));    
                 }
                 //Si es un valor booleano
                 else if(typeof(val_orig) == "boolean" && typeof(val) == "boolean"){
@@ -88,12 +88,12 @@ ExtractValues.prototype.getArrSimilarity = function(Object, objectComparison, th
             }
         }
     }
+    
     return arrValues;
 }
 
 ExtractValues.prototype.getSimilarity = function(Object, objectComparison){
     var arr = this.getArrSimilarity(Object, objectComparison, this.threshold, this.n, this.k);
-    
     var cont = 0;
     for(var i=0; i<arr.length; i++){
         cont = cont + arr[i];
@@ -103,7 +103,6 @@ ExtractValues.prototype.getSimilarity = function(Object, objectComparison){
 }
 
 ExtractValues.prototype.containsFuzzy = function(array, element, threshold, n, k){
-    console.log(array);
     
     //Comprobamos si hay algo
     if(array.length == 0){
@@ -154,7 +153,7 @@ ExtractValues.prototype.containsFuzzy = function(array, element, threshold, n, k
             sim = Math.exp((-1)*(up/down));
         }
         else{
-            sim = this.getSimilarity(element, array[i], n, k);
+            sim = this.getSimilarity(element, array[i]);
         }
         
         if(sim >= threshold){

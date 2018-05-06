@@ -8,6 +8,7 @@ var fuzzymdb = function(options){
     this.accurate = options.accurate;
     this.algorithm = options.algorithm;
     this.n = options.n;
+    this.k = options.k;
 }
 
 fuzzymdb.prototype.insertOneFuzzy = function(object, callback){
