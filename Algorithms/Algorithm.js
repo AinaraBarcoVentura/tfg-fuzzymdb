@@ -1,8 +1,7 @@
-var Jaccard = require('../Algorithms/jaccard.js');
-var Ngram = require('../Algorithms/kondraks_ngram.js');
-var Levensthein = require('../Algorithms/levensthein.js');
-var SorensenDice = require('../Algorithms/sorensen_dice.js');
-var Damerau = require('../Algorithms/damerau.js');
+var Jaccard = require('./Jaccard.js');
+var Ngram = require('./Kondrak.js');
+var Levensthein = require('./Levenshtein.js');
+
 
 function Algorithm(name, n){
     this.accurate = accurate;
@@ -13,24 +12,18 @@ function Algorithm(name, n){
         this.name = name.toLowerCase();
         this.n = n;
         
-        if(n == undefined && (this.name != "levensthein" && this.name != "damerau")){
+        if(n == undefined && this.name != "Levensthein"){
             throw new Error("if you use a ngram based algorithm you must indicates the length of the gram");
         }
     
-        if(this.name == "levensthein"){
+        if(this.name == "Levenshtein"){
             this.algorithm = new Levensthein();
-        } 
-        else if(this.name == "damerau"){
-            this.algorithm = new Damerau();
         }
-        else if(this.name == "jaccard"){
+        else if(this.name == "Jaccard"){
             this.algorithm = new Jaccard(this.n)
         }
-        else if(this.name == "kondrakgram"){
+        else if(this.name == "Kondrak"){
             this.algorithm = new Ngram(this.n);
-        }
-        else if(this.name == "sorensen-dice"){
-            this.algorithm = new SorensenDice(this.n);
         } 
         else {
             throw new Error("The algorithm name specified does not exist");    

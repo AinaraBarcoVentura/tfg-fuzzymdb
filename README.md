@@ -2,6 +2,7 @@
 
 This project is part of the final degree project entitled "Expansion of a NoSQL database system through the use of fuzzy techniques". The operations available for the MongoDB database have been expanded through the use of fuzzy techniques.
 It is a npm-module for node.js.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -10,12 +11,15 @@ These instructions will get you a copy of the project up and running on your loc
 
 For use the npm-module, first you need to install node.js. You can find the software here: https://nodejs.org/es/.
 
-To use the module fuzzymdb, you will need to have installed the mongodb module, because it is a dependency of the project. To install it use the following command:
+To use the module fuzzymdb, you will need to have installed the mongodb module and ora module. Both of them are dependencies of this project but when you install the fuzzymdb module you already download the necessary packages for complete functionality.
+
+Also, if you experiment some problem, you can install the modules manually following the next steps:
+To install the mongodb module use the following command:
 ```
 npm install mongodb
 ```
 
-Also, if you want to display the loading bar in the console, asynchronously, you will also need the ora package. To install it usse the following command:
+To install ora module use the following command:
 
 ```
 npm install ora

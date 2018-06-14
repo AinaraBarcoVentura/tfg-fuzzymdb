@@ -1,4 +1,4 @@
-var fuzzy = require('./Core/MDBFuzzy.js'); 
+var fuzzy = require('./FuzzyOperations/MDBFuzzy.js'); 
 
 var fuzzymdb = function(options){
     this.f = new fuzzy(options.connection_string);

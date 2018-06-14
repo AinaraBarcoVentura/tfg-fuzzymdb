@@ -1,8 +1,8 @@
 //Librerias requeridas
 var MongoClient = require('mongodb').MongoClient;
 var Spinner = require('../Utils/Spinner.js');
-var Algorithm = require('./Algorithm.js');
-var JSONCompare = require('../Utils/compareJSONValues.js');
+var Algorithm = require('../Algorithms/Algorithm.js');
+var JSONCompare = require('../Comparator/DocumentCompare.js');
 
 //Constructor
 var MDBFuzzy = function(url) {
